@@ -40,3 +40,40 @@ int celebrity(vector<vector<int> >& mat) {
     }
     return ans;
 }
+
+// Optimal Approach
+// TC = O(2n)
+// SC = O(1)
+// Approach Dry run is done in copy
+
+int celebrity2(vector<vector<int> >& mat) {
+    int n = mat.size();
+    int top = 0;
+    int bottom = n-1;
+    while(top<bottom){
+        if(mat[top][bottom] == 1){
+            top++;
+        }
+        else if(mat[bottom][top] == 1){
+            bottom--;
+        }
+        else {
+            top++;
+            bottom--;
+        }
+    }
+    if(top == bottom){
+        for(int j =0;j<n;j++){
+            if(mat[top][j] == 1){
+                return -1;
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(i!= top && mat[i][top] != 1){
+                return -1;
+            }
+        }
+        
+    }
+    return top;
+}
