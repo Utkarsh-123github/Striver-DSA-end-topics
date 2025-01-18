@@ -78,7 +78,7 @@ public:
     }
 };
 
-// Optimal Approach : Using max heap for getNewsFeed
+// Optimal Approach : Using max heap for getNewsFeed and unordered_map<int,vector<pair<int,int>>>tweets for storing tweets
 
 class Twitter2 {
 public:
