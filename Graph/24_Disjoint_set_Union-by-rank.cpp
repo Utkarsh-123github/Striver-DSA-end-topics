@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// TC = O(4*alpha) ~ O(1)
+
 class DisjointSet {
     private:
         vector<int>rank,parent;
