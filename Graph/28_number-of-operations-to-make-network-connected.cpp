@@ -5,6 +5,8 @@
 // Return the minimum number of times you need to do this in order to make all the computers connected. If it is not possible, return -1.
 
 // Here we'll use disjoint sets
+// We'l l count the number of connected components and return cnt - 1;
+// Edge case : If adjList size is less than n-1 then return -1 bcoz there are less cables in order to connect all the components
 
 #include<bits/stdc++.h>
 using namespace std;
