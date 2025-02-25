@@ -78,3 +78,84 @@ int largestIsland(vector<vector<int>>& grid) {
 
 
 //------------- End of brute approach-------------//
+
+
+//-----Start of Optimal Approach using disjoint sets----------//
+
+class DisjointSet{
+    public:
+    vector<int>size,parent;
+    DisjointSet(int n){
+        size.resize(n+1);
+        parent.resize(n+1);
+        for(int i=0;i<=n;i++){
+            size[i] = 1;
+            parent[i] = i;
+        }
+    }
+
+    int findUPar(int node){
+        if(node == parent[node])return node;
+        return parent[node] = findUPar(parent[node]);
+    }
+
+    void unionBySize(int u, int v){
+        int upu = findUPar(u);
+        int upv = findUPar(v);
+        if(upu == upv)return;
+        if(size[upu]<size[upv]){
+            parent[upu] = upv;
+            size[upv]+=size[upu];
+        }
+        else{
+            parent[upv] = upu;
+            size[upu]+=size[upv];
+        }
+    }
+};
+
+int largestIsland(vector<vector<int>>& grid) {
+    int n = grid.size();
+    DisjointSet ds(n*n);
+    vector<pair<int,int>>directions = {{-1,0},{1,0},{0,-1},{0,1}};
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(grid[i][j] == 0)continue;
+            for(auto [dr,dc] : directions){
+                int nr = i + dr;
+                int nc = j + dc;
+                if(nr>=0 && nr<n && nc>=0 && nc<n && grid[nr][nc] == 1){
+                    int node = i*n + j;
+                    int adjNode = nr*n + nc;
+                    ds.unionBySize(node,adjNode);
+                }
+            }
+        }
+    }
+
+    int maxArea = 0;
+
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(grid[i][j] == 0){
+                set<int>st;
+                for(auto [dr,dc] : directions){
+                    int nr = i + dr;
+                    int nc = j + dc;
+                    if(nr>=0 && nr<n && nc>=0 && nc<n && grid[nr][nc] == 1){
+                        int node = nr*n + nc;
+                        int par = ds.findUPar(node);
+                        st.insert(par);
+                    }
+                }
+                int ans = 1;
+                for(auto it : st){
+                    ans += ds.size[it];
+                }
+
+                maxArea = max(ans,maxArea);
+            }
+        }
+    }
+    return maxArea == 0 ? n*n : maxArea;
+}
