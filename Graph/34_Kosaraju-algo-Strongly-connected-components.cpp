@@ -25,7 +25,7 @@ void dfs(int& node, vector<vector<int>>&adj, vector<int>&vis, stack<int>&st){
 void dfs2(int& node, vector<vector<int>>&adjRev, vector<int>&vis){
     vis[node] = 1;
     for(auto it:adjRev[node]){
-        if(!vis[it]){
+        if(!vis[it]){            
             dfs2(it,adjRev,vis);
         }
     }
